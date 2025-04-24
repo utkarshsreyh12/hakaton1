@@ -1,0 +1,1776 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Virtual Zoo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <div class="flex items-center space-x-4">
+        <a href="#" class="text-2xl font-extrabold text-green-700 select-none">Virtual Zoo</a>
+      </div>
+      <div class="hidden md:flex md:items-center md:space-x-6">
+        <a href="#" class="text-gray-700 hover:text-green-700 font-medium">Home</a>
+        <a href="#about" class="text-gray-700 hover:text-green-700 font-medium">About</a>
+        <a href="#contact" class="text-gray-700 hover:text-green-700 font-medium">Contact</a>
+      </div>
+      <div class="flex-1 max-w-xs md:max-w-md ml-6">
+        <input
+          type="text"
+          id="search-bar"
+          placeholder="Search Animals or Categories..."
+          class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          oninput="filterAnimals()"
+          aria-label="Search Animals or Categories"
+        />
+      </div>
+      <button
+        id="mobile-menu-button"
+        class="md:hidden text-gray-700 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+        aria-label="Open menu"
+      >
+        <i class="fas fa-bars fa-lg"></i>
+      </button>
+    </nav>
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2 bg-white border-t border-gray-200">
+      <a href="#" class="block text-gray-700 hover:text-green-700 font-medium">Home</a>
+      <a href="#about" class="block text-gray-700 hover:text-green-700 font-medium">About</a>
+      <a href="#contact" class="block text-gray-700 hover:text-green-700 font-medium">Contact</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <section aria-label="Animal Cards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="animal-cards-container">
+      <!-- Animal cards will be inserted here by JS -->
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row md:justify-between md:items-center space-y-6 md:space-y-0">
+      <div class="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 text-gray-700 text-sm font-medium">
+        <a href="#about" class="hover:text-green-700">About</a>
+        <a href="#contact" class="hover:text-green-700">Contact</a>
+        <a href="#privacy-policy" class="hover:text-green-700">Privacy Policy</a>
+        <a href="#terms-of-service" class="hover:text-green-700">Terms of Service</a>
+      </div>
+      <div class="flex space-x-6 text-gray-700 text-lg">
+        <a href="https://www.facebook.com/VirtualZoo" target="_blank" aria-label="Facebook" class="hover:text-green-700">
+          <i class="fab fa-facebook-square"></i>
+        </a>
+        <a href="https://twitter.com/VirtualZoo" target="_blank" aria-label="Twitter" class="hover:text-green-700">
+          <i class="fab fa-twitter-square"></i>
+        </a>
+        <a href="https://www.instagram.com/VirtualZoo" target="_blank" aria-label="Instagram" class="hover:text-green-700">
+          <i class="fab fa-instagram-square"></i>
+        </a>
+      </div>
+      <div class="text-gray-500 text-sm text-center md:text-right select-none">
+        © 2025 Virtual Zoo. All rights reserved.
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 text-gray-600 text-sm text-center">
+      Contact us: <a href="mailto:support@virtualzoo.com" class="hover:text-green-700">support@virtualzoo.com</a> | Phone: <a href="tel:+1234567890" class="hover:text-green-700">+1 (234) 567-890</a>
+    </div>
+  </footer>
+
+  <!-- Animal Detail Modal -->
+  <div id="animal-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden overflow-auto">
+    <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-lg relative">
+      <button
+        id="modal-close-btn"
+        class="absolute top-3 right-3 text-gray-600 hover:text-green-700 focus:outline-none"
+        aria-label="Close animal details"
+      >
+        <i class="fas fa-times fa-lg"></i>
+      </button>
+      <div class="p-6 space-y-6">
+        <header class="flex flex-col md:flex-row md:items-center md:space-x-6">
+          <img
+            id="modal-animal-thumbnail"
+            src=""
+            alt=""
+            class="w-32 h-32 rounded-lg object-cover flex-shrink-0 shadow-md"
+          />
+          <h2 id="modal-animal-name" class="text-3xl font-extrabold text-green-700 mt-4 md:mt-0"></h2>
+        </header>
+
+        <section aria-label="360 degree image or video" class="w-full aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-md">
+          <div id="modal-360-media-container" class="w-full h-full relative bg-gray-100 flex items-center justify-center">
+            <!-- 360 media iframe or image inserted here -->
+          </div>
+        </section>
+
+        <section aria-label="Animal sound" class="pt-4">
+          <audio id="modal-animal-sound" controls class="w-full rounded-md shadow-sm" preload="none">
+            Your browser does not support the audio element.
+          </audio>
+        </section>
+
+        <section aria-label="Animal facts" class="pt-6">
+          <h3 class="text-xl font-semibold text-green-700 mb-3">Key Facts</h3>
+          <ul id="modal-animal-facts" class="list-disc list-inside space-y-1 text-gray-700"></ul>
+        </section>
+
+        <section aria-label="Educational summary" class="pt-6">
+          <h3 class="text-xl font-semibold text-green-700 mb-3">Educational Summary</h3>
+          <p id="modal-animal-summary" class="text-gray-700 leading-relaxed"></p>
+        </section>
+
+        <section aria-label="Related animals" class="pt-6">
+          <h3 class="text-xl font-semibold text-green-700 mb-3">Related Animals</h3>
+          <div id="modal-related-animals" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+        </section>
+
+        <section aria-label="User rating and comments" class="pt-6">
+          <h3 class="text-xl font-semibold text-green-700 mb-3">Rate this Animal</h3>
+          <div class="flex items-center space-x-2 mb-4" id="rating-stars">
+            <button aria-label="Rate 1 star" data-star="1" class="star-btn text-gray-400 hover:text-green-600 focus:outline-none text-2xl"><i class="fas fa-star"></i></button>
+            <button aria-label="Rate 2 stars" data-star="2" class="star-btn text-gray-400 hover:text-green-600 focus:outline-none text-2xl"><i class="fas fa-star"></i></button>
+            <button aria-label="Rate 3 stars" data-star="3" class="star-btn text-gray-400 hover:text-green-600 focus:outline-none text-2xl"><i class="fas fa-star"></i></button>
+            <button aria-label="Rate 4 stars" data-star="4" class="star-btn text-gray-400 hover:text-green-600 focus:outline-none text-2xl"><i class="fas fa-star"></i></button>
+            <button aria-label="Rate 5 stars" data-star="5" class="star-btn text-gray-400 hover:text-green-600 focus:outline-none text-2xl"><i class="fas fa-star"></i></button>
+          </div>
+          <div id="rating-message" class="text-green-700 font-semibold"></div>
+        </section>
+
+        <section aria-label="Comments section" class="pt-6">
+          <h3 class="text-xl font-semibold text-green-700 mb-3">Comments</h3>
+          <form id="comment-form" class="mb-4 space-y-3">
+            <textarea
+              id="comment-input"
+              rows="3"
+              placeholder="Leave your comment here..."
+              class="w-full rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+              aria-label="Leave a comment"
+            ></textarea>
+            <button
+              type="submit"
+              class="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              Submit Comment
+            </button>
+          </form>
+          <ul id="comments-list" class="space-y-4 max-h-48 overflow-y-auto text-gray-700"></ul>
+        </section>
+
+        <section aria-label="Animal quiz" class="pt-6">
+          <h3 class="text-xl font-semibold text-green-700 mb-3">Test Your Knowledge</h3>
+          <div id="quiz-container" class="space-y-4">
+            <!-- Quiz questions inserted here -->
+          </div>
+          <button
+            id="quiz-submit-btn"
+            class="mt-3 bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            Submit Quiz
+          </button>
+          <div id="quiz-result" class="mt-3 font-semibold text-green-700"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Animal data array with 50 animals
+    const animals = [
+      {
+        id: 1,
+        name: "African Elephant",
+        shortDescription: "Large mammals known for their trunks.",
+        longDescription:
+          "African elephants are the largest land animals on Earth. They are known for their large ears, tusks, and trunks which they use for communication and handling objects. They live in grasslands and forests and are social animals living in herds.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+African+Elephant+in+grassland",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        habitat: "Grasslands and forests",
+        diet: "Herbivore - grasses, fruits, bark",
+        interestingFacts: [
+          "Elephants can weigh up to 6,000 kg.",
+          "They use their trunks for breathing, smelling, touching, grasping, and producing sound.",
+          "Elephants have a highly developed brain and show complex behaviors.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=African+Elephant+Thumbnail",
+      },
+      {
+        id: 2,
+        name: "Bald Eagle",
+        shortDescription: "Bird of prey with a white head and tail.",
+        longDescription:
+          "The bald eagle is a bird of prey found in North America. It is known for its white head and tail feathers contrasting with a dark brown body and wings. It primarily feeds on fish and builds large nests near water.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Bald+Eagle+in+flight",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+        habitat: "Near large bodies of open water",
+        diet: "Carnivore - fish, small mammals",
+        interestingFacts: [
+          "Bald eagles have a wingspan of up to 2.3 meters.",
+          "They build the largest nests of any North American bird.",
+          "They can fly at speeds up to 56 mph.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Bald+Eagle+Thumbnail",
+      },
+      {
+        id: 3,
+        name: "Green Anaconda",
+        shortDescription: "One of the largest snakes in the world.",
+        longDescription:
+          "The green anaconda is a massive snake found in South America. It is one of the heaviest and longest snakes, living mostly in swamps, marshes, and slow-moving streams. It is a non-venomous constrictor.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Green+Anaconda+in+swamp",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+        habitat: "Swamps, marshes, slow-moving streams",
+        diet: "Carnivore - fish, birds, mammals",
+        interestingFacts: [
+          "Green anacondas can grow over 5 meters long.",
+          "They are excellent swimmers and spend much time in water.",
+          "They kill prey by constriction.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Reptiles",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Green+Anaconda+Thumbnail",
+      },
+      {
+        id: 4,
+        name: "Emperor Penguin",
+        shortDescription: "Largest species of penguin.",
+        longDescription:
+          "Emperor penguins are the tallest and heaviest of all penguin species. They live in Antarctica and are known for their remarkable breeding cycle during the harsh winter months.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Emperor+Penguin+on+ice",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+        habitat: "Antarctic ice and waters",
+        diet: "Carnivore - fish, krill, squid",
+        interestingFacts: [
+          "Emperor penguins can dive over 500 meters deep.",
+          "They huddle together to survive the cold.",
+          "They incubate eggs on their feet under a flap of skin.",
+        ],
+        conservationStatus: "Near Threatened",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Emperor+Penguin+Thumbnail",
+      },
+      {
+        id: 5,
+        name: "Giant Panda",
+        shortDescription: "Black and white bear native to China.",
+        longDescription:
+          "Giant pandas are bears known for their distinctive black and white coloring. They primarily eat bamboo and live in mountainous regions of central China. They are a symbol of wildlife conservation.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Giant+Panda+in+bamboo+forest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+        habitat: "Mountainous bamboo forests",
+        diet: "Herbivore - bamboo",
+        interestingFacts: [
+          "Pandas spend up to 14 hours a day eating bamboo.",
+          "They have a pseudo-thumb to help grasp bamboo stalks.",
+          "They are solitary animals.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Giant+Panda+Thumbnail",
+      },
+      {
+        id: 6,
+        name: "King Cobra",
+        shortDescription: "World's longest venomous snake.",
+        longDescription:
+          "The king cobra is a highly venomous snake found in forests across South and Southeast Asia. It is known for its impressive hood and potent venom. It primarily feeds on other snakes.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+King+Cobra+in+forest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+        habitat: "Forests and plains",
+        diet: "Carnivore - snakes, lizards",
+        interestingFacts: [
+          "King cobras can grow up to 18 feet long.",
+          "They can deliver a large amount of venom in a single bite.",
+          "They build nests for their eggs, which is rare for snakes.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Reptiles",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=King+Cobra+Thumbnail",
+      },
+      {
+        id: 7,
+        name: "Red Fox",
+        shortDescription: "Small, adaptable wild canid.",
+        longDescription:
+          "The red fox is a small mammal known for its reddish fur and bushy tail. It is highly adaptable and found in many habitats including forests, grasslands, mountains, and urban areas.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Red+Fox+in+forest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
+        habitat: "Forests, grasslands, urban areas",
+        diet: "Omnivore - small mammals, birds, fruits",
+        interestingFacts: [
+          "Red foxes have excellent hearing and can hear low-frequency sounds.",
+          "They use a wide range of vocalizations to communicate.",
+          "They are solitary hunters.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Red+Fox+Thumbnail",
+      },
+      {
+        id: 8,
+        name: "Scarlet Macaw",
+        shortDescription: "Large colorful parrot native to Central America.",
+        longDescription:
+          "Scarlet macaws are vibrant red, yellow, and blue parrots found in tropical rainforests. They are known for their intelligence and strong beaks used to crack nuts and seeds.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Scarlet+Macaw+in+rainforest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
+        habitat: "Tropical rainforests",
+        diet: "Herbivore - nuts, seeds, fruits",
+        interestingFacts: [
+          "Scarlet macaws can live up to 75 years in the wild.",
+          "They form strong pair bonds and mate for life.",
+          "They are excellent mimics and can learn to talk.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Scarlet+Macaw+Thumbnail",
+      },
+      {
+        id: 9,
+        name: "Saltwater Crocodile",
+        shortDescription: "Largest living reptile species.",
+        longDescription:
+          "Saltwater crocodiles are massive reptiles found in saltwater habitats and rivers in Southeast Asia and Australia. They are apex predators and can be very aggressive.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Saltwater+Crocodile+in+river",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+        habitat: "Saltwater habitats, rivers, estuaries",
+        diet: "Carnivore - fish, mammals, birds",
+        interestingFacts: [
+          "Saltwater crocodiles can grow up to 7 meters long.",
+          "They have the strongest bite force of any animal.",
+          "They can live up to 70 years.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Reptiles",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Saltwater+Crocodile+Thumbnail",
+      },
+      {
+        id: 10,
+        name: "Snow Leopard",
+        shortDescription: "Elusive big cat of the mountain ranges.",
+        longDescription:
+          "Snow leopards are large cats native to the mountain ranges of Central and South Asia. They have thick fur and long tails to survive cold climates and are excellent climbers.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Snow+Leopard+on+rocky+mountain",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
+        habitat: "Mountain ranges",
+        diet: "Carnivore - wild sheep, goats, small mammals",
+        interestingFacts: [
+          "Snow leopards can leap up to 15 meters.",
+          "They are solitary and territorial animals.",
+          "Their thick fur camouflages them in rocky terrain.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Snow+Leopard+Thumbnail",
+      },
+      {
+        id: 11,
+        name: "Great Horned Owl",
+        shortDescription: "Large owl with distinctive ear tufts.",
+        longDescription:
+          "Great horned owls are powerful nocturnal birds of prey found throughout the Americas. They have large yellow eyes and prominent ear tufts, hunting a wide variety of prey.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Great+Horned+Owl+perched+on+tree",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3",
+        habitat: "Forests, deserts, urban areas",
+        diet: "Carnivore - mammals, birds, reptiles",
+        interestingFacts: [
+          "Great horned owls have a wingspan up to 1.5 meters.",
+          "They can rotate their heads up to 270 degrees.",
+          "They are silent hunters due to specialized feathers.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Great+Horned+Owl+Thumbnail",
+      },
+      {
+        id: 12,
+        name: "Komodo Dragon",
+        shortDescription: "Largest living species of lizard.",
+        longDescription:
+          "Komodo dragons are giant lizards found on Indonesian islands. They are powerful predators with venomous bites and can take down large prey including deer and water buffalo.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Komodo+Dragon+on+rock",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3",
+        habitat: "Tropical forests and savannahs",
+        diet: "Carnivore - deer, birds, smaller reptiles",
+        interestingFacts: [
+          "Komodo dragons can grow up to 3 meters long.",
+          "They have a keen sense of smell using their forked tongue.",
+          "Their saliva contains toxic bacteria and venom.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Reptiles",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Komodo+Dragon+Thumbnail",
+      },
+      {
+        id: 13,
+        name: "Mandrill",
+        shortDescription: "Colorful primate with a distinctive face.",
+        longDescription:
+          "Mandrills are large monkeys native to the rainforests of Central Africa. Males have bright blue and red facial coloration and large canine teeth. They live in large social groups.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Mandrill+in+rainforest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3",
+        habitat: "Tropical rainforests",
+        diet: "Omnivore - fruits, insects, small animals",
+        interestingFacts: [
+          "Mandrills are the largest monkeys in the world.",
+          "Their colorful faces become brighter when excited.",
+          "They live in groups called hordes of up to 200 individuals.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Mandrill+Thumbnail",
+      },
+      {
+        id: 14,
+        name: "Monarch Butterfly",
+        shortDescription: "Famous migratory butterfly with orange wings.",
+        longDescription:
+          "Monarch butterflies are known for their long migrations across North America. Their bright orange and black wings warn predators of their toxicity from milkweed plants they consume as caterpillars.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Monarch+Butterfly+on+flower",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3",
+        habitat: "Fields, meadows, gardens",
+        diet: "Nectar from flowers",
+        interestingFacts: [
+          "Monarchs migrate up to 4,000 km to overwintering sites.",
+          "They undergo complete metamorphosis from caterpillar to butterfly.",
+          "Their bright colors deter predators.",
+        ],
+        conservationStatus: "Endangered",
+        category: "Insects",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Monarch+Butterfly+Thumbnail",
+      },
+      {
+        id: 15,
+        name: "Orangutan",
+        shortDescription: "Great ape with reddish hair.",
+        longDescription:
+          "Orangutans are intelligent great apes native to the rainforests of Borneo and Sumatra. They are arboreal and spend most of their time in trees. They use tools and have complex social behaviors.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Orangutan+in+forest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3",
+        habitat: "Tropical rainforests",
+        diet: "Omnivore - fruits, leaves, insects",
+        interestingFacts: [
+          "Orangutans have the longest interbirth interval of any mammal.",
+          "They build nests in trees to sleep.",
+          "They are critically endangered due to habitat loss.",
+        ],
+        conservationStatus: "Critically Endangered",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Orangutan+Thumbnail",
+      },
+      {
+        id: 16,
+        name: "Peacock",
+        shortDescription: "Bird known for its colorful tail feathers.",
+        longDescription:
+          "Peacocks are large birds famous for their iridescent tail feathers which they fan out during courtship displays. They are native to South Asia and are often found in forests and farmlands.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Peacock+displaying+tail",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3",
+        habitat: "Forests, farmlands",
+        diet: "Omnivore - seeds, insects, small creatures",
+        interestingFacts: [
+          "Peacocks can fan out over 200 tail feathers.",
+          "Their feathers have microscopic structures that create iridescence.",
+          "They are ground feeders but roost in trees.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Peacock+Thumbnail",
+      },
+      {
+        id: 17,
+        name: "Polar Bear",
+        shortDescription: "Large bear native to Arctic regions.",
+        longDescription:
+          "Polar bears are powerful carnivores adapted to cold Arctic environments. They primarily hunt seals on sea ice and have thick fur and fat to insulate against the cold.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Polar+Bear+on+ice",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3",
+        habitat: "Arctic sea ice and coasts",
+        diet: "Carnivore - seals, fish",
+        interestingFacts: [
+          "Polar bears have black skin under their white fur to absorb heat.",
+          "They can swim long distances in cold water.",
+          "They are classified as vulnerable due to climate change.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Polar+Bear+Thumbnail",
+      },
+      {
+        id: 18,
+        name: "Red Kangaroo",
+        shortDescription: "Largest marsupial native to Australia.",
+        longDescription:
+          "Red kangaroos are large marsupials known for their powerful hind legs and hopping locomotion. They live in arid and semi-arid regions of Australia and are herbivores.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Red+Kangaroo+in+outback",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-18.mp3",
+        habitat: "Arid and semi-arid regions",
+        diet: "Herbivore - grasses, shrubs",
+        interestingFacts: [
+          "Red kangaroos can hop at speeds up to 70 km/h.",
+          "Males can grow up to 2 meters tall.",
+          "They use their strong tail for balance.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Red+Kangaroo+Thumbnail",
+      },
+      {
+        id: 19,
+        name: "Ring-tailed Lemur",
+        shortDescription: "Primate with a distinctive striped tail.",
+        longDescription:
+          "Ring-tailed lemurs are primates native to Madagascar. They have long, bushy tails with black and white rings and live in social groups. They are active during the day and communicate with vocalizations and scent marking.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Ring-tailed+Lemur+in+forest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-19.mp3",
+        habitat: "Dry forests and scrub",
+        diet: "Omnivore - fruits, leaves, insects",
+        interestingFacts: [
+          "Ring-tailed lemurs use their tails for balance and communication.",
+          "They sunbathe in the mornings to warm up.",
+          "They live in groups called troops.",
+        ],
+        conservationStatus: "Endangered",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Ring-tailed+Lemur+Thumbnail",
+      },
+      {
+        id: 20,
+        name: "Siberian Tiger",
+        shortDescription: "Largest tiger subspecies native to Russia.",
+        longDescription:
+          "Siberian tigers are powerful big cats adapted to cold climates. They have thick fur and large paws to walk on snow. They are solitary hunters and apex predators in their habitat.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Siberian+Tiger+in+snow",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-20.mp3",
+        habitat: "Boreal forests and mountains",
+        diet: "Carnivore - deer, wild boar",
+        interestingFacts: [
+          "Siberian tigers can weigh up to 300 kg.",
+          "They have a thick layer of fat for insulation.",
+          "They are endangered due to poaching and habitat loss.",
+        ],
+        conservationStatus: "Endangered",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Siberian+Tiger+Thumbnail",
+      },
+      {
+        id: 21,
+        name: "Toucan",
+        shortDescription: "Bird with a large colorful bill.",
+        longDescription:
+          "Toucans are tropical birds known for their oversized, colorful bills. They live in Central and South American rainforests and feed on fruits, insects, and small animals.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Toucan+in+rainforest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-21.mp3",
+        habitat: "Tropical rainforests",
+        diet: "Omnivore - fruits, insects",
+        interestingFacts: [
+          "Toucans use their bills to reach fruit on branches too small to support their weight.",
+          "Their bills are lightweight due to a honeycomb structure.",
+          "They nest in tree cavities.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Toucan+Thumbnail",
+      },
+      {
+        id: 22,
+        name: "Walrus",
+        shortDescription: "Large marine mammal with tusks.",
+        longDescription:
+          "Walruses are large marine mammals found in Arctic seas. They have long tusks, whiskers, and thick blubber to survive cold waters. They feed mainly on benthic invertebrates.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Walrus+on+ice",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-22.mp3",
+        habitat: "Arctic seas and ice floes",
+        diet: "Carnivore - clams, mollusks",
+        interestingFacts: [
+          "Walruses use their tusks to haul out of water and defend themselves.",
+          "They can slow their heart rate to dive deep.",
+          "They live in large herds.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Walrus+Thumbnail",
+      },
+      {
+        id: 23,
+        name: "Woolly Mammoth (Extinct)",
+        shortDescription: "Extinct elephant relative with thick fur.",
+        longDescription:
+          "Woolly mammoths were prehistoric relatives of modern elephants that lived during the Ice Age. They had thick fur, long curved tusks, and were adapted to cold environments.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Woolly+Mammoth+in+ice+age+landscape",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-23.mp3",
+        habitat: "Ice Age tundra and steppe",
+        diet: "Herbivore - grasses, shrubs",
+        interestingFacts: [
+          "Woolly mammoths went extinct about 4,000 years ago.",
+          "They had a hump of fat for energy storage.",
+          "They coexisted with early humans.",
+        ],
+        conservationStatus: "Extinct",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Woolly+Mammoth+Thumbnail",
+      },
+      {
+        id: 24,
+        name: "Zebra",
+        shortDescription: "Striped horse-like mammal native to Africa.",
+        longDescription:
+          "Zebras are African equids known for their distinctive black and white stripes. They live in savannas and grasslands and are social animals living in herds.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Zebra+in+savanna",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-24.mp3",
+        habitat: "Savannas, grasslands",
+        diet: "Herbivore - grasses",
+        interestingFacts: [
+          "Each zebra's stripe pattern is unique.",
+          "Stripes may help deter biting flies.",
+          "They communicate with facial expressions and sounds.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Zebra+Thumbnail",
+      },
+      {
+        id: 25,
+        name: "African Grey Parrot",
+        shortDescription: "Highly intelligent talking parrot.",
+        longDescription:
+          "African grey parrots are known for their exceptional intelligence and ability to mimic human speech. They are native to the rainforests of West and Central Africa.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+African+Grey+Parrot+in+forest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-25.mp3",
+        habitat: "Rainforests",
+        diet: "Omnivore - seeds, fruits, nuts",
+        interestingFacts: [
+          "African grey parrots have a lifespan of up to 60 years.",
+          "They are considered one of the most intelligent bird species.",
+          "They use vocalizations to communicate complex ideas.",
+        ],
+        conservationStatus: "Endangered",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=African+Grey+Parrot+Thumbnail",
+      },
+      {
+        id: 26,
+        name: "Blue Whale",
+        shortDescription: "Largest animal ever known to have lived.",
+        longDescription:
+          "Blue whales are the largest animals on Earth, reaching lengths of up to 30 meters. They are marine mammals that feed primarily on tiny krill and communicate with low-frequency sounds.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Blue+Whale+in+ocean",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-26.mp3",
+        habitat: "Oceans worldwide",
+        diet: "Carnivore - krill",
+        interestingFacts: [
+          "Blue whales can weigh up to 200 tons.",
+          "Their heart is the size of a small car.",
+          "They produce the loudest sounds of any animal.",
+        ],
+        conservationStatus: "Endangered",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Blue+Whale+Thumbnail",
+      },
+      {
+        id: 27,
+        name: "Cheetah",
+        shortDescription: "Fastest land animal.",
+        longDescription:
+          "Cheetahs are large cats known for their incredible speed, reaching up to 112 km/h in short bursts. They have slender bodies and distinctive black tear stripes on their faces.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Cheetah+running",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-27.mp3",
+        habitat: "Grasslands and savannas",
+        diet: "Carnivore - small to medium-sized ungulates",
+        interestingFacts: [
+          "Cheetahs accelerate faster than most sports cars.",
+          "They hunt primarily by sight and speed.",
+          "They cannot roar but make chirping sounds.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Cheetah+Thumbnail",
+      },
+      {
+        id: 28,
+        name: "Emu",
+        shortDescription: "Large flightless bird native to Australia.",
+        longDescription:
+          "Emus are large birds that cannot fly but are excellent runners. They inhabit various habitats in Australia and feed on plants and insects.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Emu+in+Australian+bush",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-28.mp3",
+        habitat: "Open forests, savannas, grasslands",
+        diet: "Omnivore - plants, insects",
+        interestingFacts: [
+          "Emus can run up to 50 km/h.",
+          "They have soft feathers that insulate against heat and cold.",
+          "Male emus incubate the eggs and care for the chicks.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Emu+Thumbnail",
+      },
+      {
+        id: 29,
+        name: "Galápagos Tortoise",
+        shortDescription: "Giant tortoise native to Galápagos Islands.",
+        longDescription:
+          "Galápagos tortoises are among the largest tortoises in the world. They have long lifespans and are important for the ecosystem of the Galápagos Islands.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Galapagos+Tortoise+on+island",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-29.mp3",
+        habitat: "Galápagos Islands",
+        diet: "Herbivore - grasses, cactus, fruits",
+        interestingFacts: [
+          "They can live over 100 years.",
+          "They played a key role in Charles Darwin's theory of evolution.",
+          "They move slowly but can swim well.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Reptiles",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Galapagos+Tortoise+Thumbnail",
+      },
+      {
+        id: 30,
+        name: "Great White Shark",
+        shortDescription: "Large predatory shark found in coastal waters.",
+        longDescription:
+          "Great white sharks are apex predators known for their size and power. They inhabit coastal surface waters in many parts of the world and feed on fish, seals, and other marine mammals.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Great+White+Shark+underwater",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-30.mp3",
+        habitat: "Coastal surface waters",
+        diet: "Carnivore - fish, seals, dolphins",
+        interestingFacts: [
+          "Great white sharks can detect a drop of blood in 25 gallons of water.",
+          "They can swim at speeds up to 40 km/h.",
+          "They have multiple rows of sharp teeth.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Fish",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Great+White+Shark+Thumbnail",
+      },
+      {
+        id: 31,
+        name: "Hippopotamus",
+        shortDescription: "Large semi-aquatic mammal native to Africa.",
+        longDescription:
+          "Hippos spend much of their time in rivers and lakes. Despite their bulky appearance, they can run fast on land and are very territorial in water.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Hippopotamus+in+river",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-31.mp3",
+        habitat: "Rivers, lakes, swamps",
+        diet: "Herbivore - grasses",
+        interestingFacts: [
+          "Hippos secrete a natural sunscreen substance that is red-colored.",
+          "They can hold their breath underwater for up to 5 minutes.",
+          "They are aggressive and considered one of the most dangerous animals in Africa.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Hippopotamus+Thumbnail",
+      },
+      {
+        id: 32,
+        name: "Indian Cobra",
+        shortDescription: "Venomous snake famous in Indian culture.",
+        longDescription:
+          "Indian cobras are venomous snakes known for their hood and spectacle pattern. They are found throughout the Indian subcontinent and are revered in many cultures.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Indian+Cobra+in+grass",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-32.mp3",
+        habitat: "Forests, plains, agricultural fields",
+        diet: "Carnivore - rodents, frogs, other snakes",
+        interestingFacts: [
+          "Indian cobras can deliver a neurotoxic venom.",
+          "They are known for their defensive hood display.",
+          "They are often associated with snake charmers.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Reptiles",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Indian+Cobra+Thumbnail",
+      },
+      {
+        id: 33,
+        name: "Jaguar",
+        shortDescription: "Powerful big cat native to the Americas.",
+        longDescription:
+          "Jaguars are large cats found in rainforests and wetlands of Central and South America. They have a robust build and are excellent swimmers.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Jaguar+in+rainforest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-33.mp3",
+        habitat: "Rainforests, wetlands",
+        diet: "Carnivore - mammals, reptiles, fish",
+        interestingFacts: [
+          "Jaguars have the strongest bite force of any big cat.",
+          "They often kill prey by biting through the skull.",
+          "They are solitary and territorial.",
+        ],
+        conservationStatus: "Near Threatened",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Jaguar+Thumbnail",
+      },
+      {
+        id: 34,
+        name: "Koala",
+        shortDescription: "Tree-dwelling marsupial native to Australia.",
+        longDescription:
+          "Koalas are marsupials that feed almost exclusively on eucalyptus leaves. They sleep up to 20 hours a day and have a strong grip for climbing trees.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Koala+in+eucalyptus+tree",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-34.mp3",
+        habitat: "Eucalyptus forests",
+        diet: "Herbivore - eucalyptus leaves",
+        interestingFacts: [
+          "Koalas have fingerprints similar to humans.",
+          "They have a specialized digestive system to detoxify eucalyptus leaves.",
+          "They are mostly nocturnal.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Koala+Thumbnail",
+      },
+      {
+        id: 35,
+        name: "Leatherback Sea Turtle",
+        shortDescription: "Largest sea turtle species.",
+        longDescription:
+          "Leatherback sea turtles are large marine turtles with a leathery shell. They migrate long distances and feed mainly on jellyfish.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Leatherback+Sea+Turtle+swimming",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-35.mp3",
+        habitat: "Oceans worldwide",
+        diet: "Carnivore - jellyfish",
+        interestingFacts: [
+          "Leatherbacks can dive to depths of over 1,200 meters.",
+          "They can weigh up to 900 kg.",
+          "They have existed for over 100 million years.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Reptiles",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Leatherback+Sea+Turtle+Thumbnail",
+      },
+      {
+        id: 36,
+        name: "Macaroni Penguin",
+        shortDescription: "Penguin with distinctive yellow crest feathers.",
+        longDescription:
+          "Macaroni penguins are found in sub-Antarctic regions. They have bright yellow crests and large colonies. They feed on krill and small fish.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Macaroni+Penguin+on+rock",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-36.mp3",
+        habitat: "Sub-Antarctic islands",
+        diet: "Carnivore - krill, fish",
+        interestingFacts: [
+          "Macaroni penguins form large breeding colonies.",
+          "They can dive up to 100 meters.",
+          "They are named after the 'macaroni' fashion of the 18th century.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Macaroni+Penguin+Thumbnail",
+      },
+      {
+        id: 37,
+        name: "Mandarin Duck",
+        shortDescription: "Colorful duck native to East Asia.",
+        longDescription:
+          "Mandarin ducks are known for their striking plumage and elaborate courtship displays. They inhabit wooded ponds and fast-flowing streams.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Mandarin+Duck+on+pond",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-37.mp3",
+        habitat: "Wooded ponds and streams",
+        diet: "Omnivore - seeds, plants, insects",
+        interestingFacts: [
+          "Mandarin ducks are symbols of love and fidelity in East Asia.",
+          "Males have ornate feathers during breeding season.",
+          "They nest in tree cavities.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Mandarin+Duck+Thumbnail",
+      },
+      {
+        id: 38,
+        name: "Meerkat",
+        shortDescription: "Small social mongoose native to Africa.",
+        longDescription:
+          "Meerkats live in groups called mobs in arid regions of southern Africa. They are known for their upright sentinel stance and cooperative behavior.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Meerkat+standing+upright",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-38.mp3",
+        habitat: "Deserts and savannas",
+        diet: "Omnivore - insects, small animals, plants",
+        interestingFacts: [
+          "Meerkats take turns standing guard for predators.",
+          "They use vocalizations to communicate danger.",
+          "They dig extensive burrow systems.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Meerkat+Thumbnail",
+      },
+      {
+        id: 39,
+        name: "Narwhal",
+        shortDescription: "Arctic whale with a long spiral tusk.",
+        longDescription:
+          "Narwhals are medium-sized whales known for the long tusk extending from males' heads. They live in Arctic waters and feed on fish and squid.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Narwhal+in+Arctic+waters",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-39.mp3",
+        habitat: "Arctic waters",
+        diet: "Carnivore - fish, squid",
+        interestingFacts: [
+          "Narwhal tusks can grow up to 3 meters long.",
+          "They use echolocation to navigate and hunt.",
+          "They are sometimes called the 'unicorns of the sea'.",
+        ],
+        conservationStatus: "Near Threatened",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Narwhal+Thumbnail",
+      },
+      {
+        id: 40,
+        name: "Okapi",
+        shortDescription: "Forest giraffe native to Central Africa.",
+        longDescription:
+          "Okapis are elusive mammals related to giraffes. They have striped legs and live in dense rainforests. They are herbivores feeding on leaves and fruits.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Okapi+in+rainforest",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-40.mp3",
+        habitat: "Dense rainforests",
+        diet: "Herbivore - leaves, fruits",
+        interestingFacts: [
+          "Okapis were unknown to the western world until the 20th century.",
+          "They have a long tongue to strip leaves from branches.",
+          "They are solitary and shy animals.",
+        ],
+        conservationStatus: "Endangered",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Okapi+Thumbnail",
+      },
+      {
+        id: 41,
+        name: "Platypus",
+        shortDescription: "Egg-laying mammal with a duck bill.",
+        longDescription:
+          "Platypuses are unique mammals native to eastern Australia. They have a duck-like bill, webbed feet, and lay eggs. They are semi-aquatic and feed on aquatic invertebrates.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Platypus+swimming+in+river",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-41.mp3",
+        habitat: "Freshwater rivers and lakes",
+        diet: "Carnivore - insects, larvae, shellfish",
+        interestingFacts: [
+          "Platypuses are one of the few venomous mammals.",
+          "Males have spurs on their hind legs that deliver venom.",
+          "They use electroreception to locate prey underwater.",
+        ],
+        conservationStatus: "Near Threatened",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Platypus+Thumbnail",
+      },
+      {
+        id: 42,
+        name: "Puffin",
+        shortDescription: "Seabird with colorful beak and black and white plumage.",
+        longDescription:
+          "Puffins are seabirds found in the North Atlantic Ocean. They are excellent swimmers and divers, feeding mainly on fish. They nest in burrows on coastal cliffs.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Puffin+on+cliff",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-42.mp3",
+        habitat: "Coastal cliffs and islands",
+        diet: "Carnivore - small fish",
+        interestingFacts: [
+          "Puffins can dive up to 60 meters deep.",
+          "Their colorful beaks brighten during breeding season.",
+          "They are sometimes called 'sea parrots'.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Birds",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Puffin+Thumbnail",
+      },
+      {
+        id: 43,
+        name: "Quokka",
+        shortDescription: "Small marsupial known for its smile.",
+        longDescription:
+          "Quokkas are small wallabies native to southwestern Australia. They are herbivores and are known for their friendly nature and 'smiling' facial expression.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Quokka+in+bush",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-43.mp3",
+        habitat: "Scrublands and forests",
+        diet: "Herbivore - grasses, leaves",
+        interestingFacts: [
+          "Quokkas are nocturnal and social animals.",
+          "They can survive long periods without water.",
+          "They are considered vulnerable due to habitat loss.",
+        ],
+        conservationStatus: "Vulnerable",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Quokka+Thumbnail",
+      },
+      {
+        id: 44,
+        name: "Rattlesnake",
+        shortDescription: "Venomous snake with a rattling tail.",
+        longDescription:
+          "Rattlesnakes are venomous snakes native to the Americas. They have a distinctive rattle at the end of their tails used to warn predators and threats.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Rattlesnake+in+desert",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-44.mp3",
+        habitat: "Deserts, grasslands, forests",
+        diet: "Carnivore - rodents, birds",
+        interestingFacts: [
+          "Rattlesnakes can control the amount of venom they inject.",
+          "They use heat-sensing pits to detect prey.",
+          "Their rattle is made of keratin segments.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Reptiles",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Rattlesnake+Thumbnail",
+      },
+      {
+        id: 45,
+        name: "Red-eyed Tree Frog",
+        shortDescription: "Vibrantly colored frog with red eyes.",
+        longDescription:
+          "Red-eyed tree frogs are small amphibians native to Central America. They have bright green bodies, blue and yellow sides, and striking red eyes. They are nocturnal and arboreal.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Red-eyed+Tree+Frog+on+leaf",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-45.mp3",
+        habitat: "Tropical rainforests",
+        diet: "Carnivore - insects",
+        interestingFacts: [
+          "Their red eyes may startle predators.",
+          "They have sticky pads on their toes for climbing.",
+          "They lay eggs on leaves overhanging water.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Amphibians",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Red-eyed+Tree+Frog+Thumbnail",
+      },
+      {
+        id: 46,
+        name: "Sea Otter",
+        shortDescription: "Marine mammal known for using tools.",
+        longDescription:
+          "Sea otters live along the coasts of the Pacific Ocean. They use rocks to crack open shellfish and have dense fur to keep warm in cold waters.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Sea+Otter+floating+on+back",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-46.mp3",
+        habitat: "Coastal waters",
+        diet: "Carnivore - shellfish, sea urchins",
+        interestingFacts: [
+          "Sea otters hold hands while sleeping to stay together.",
+          "They have the densest fur of any animal.",
+          "They play a key role in kelp forest ecosystems.",
+        ],
+        conservationStatus: "Endangered",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Sea+Otter+Thumbnail",
+      },
+      {
+        id: 47,
+        name: "Siberian Husky",
+        shortDescription: "Medium-sized working dog breed.",
+        longDescription:
+          "Siberian huskies are known for their endurance and ability to work in cold climates. They have thick fur, erect ears, and striking blue or multicolored eyes.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Siberian+Husky+in+snow",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-47.mp3",
+        habitat: "Cold climates",
+        diet: "Omnivore - dog food, meat",
+        interestingFacts: [
+          "Siberian huskies are known for their friendly temperament.",
+          "They have a double coat for insulation.",
+          "They are used in sled dog racing.",
+        ],
+        conservationStatus: "Domesticated",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Siberian+Husky+Thumbnail",
+      },
+      {
+        id: 48,
+        name: "Sloth",
+        shortDescription: "Slow-moving tree-dwelling mammal.",
+        longDescription:
+          "Sloths are arboreal mammals native to Central and South America. They move slowly and spend most of their time hanging upside down in trees.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Sloth+hanging+from+tree",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-48.mp3",
+        habitat: "Tropical rainforests",
+        diet: "Herbivore - leaves, fruits",
+        interestingFacts: [
+          "Sloths have a low metabolic rate.",
+          "They only descend to the ground once a week to defecate.",
+          "Algae grow on their fur, providing camouflage.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Mammals",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Sloth+Thumbnail",
+      },
+      {
+        id: 49,
+        name: "Tiger Salamander",
+        shortDescription: "Large amphibian with yellow and black markings.",
+        longDescription:
+          "Tiger salamanders are found in North America. They live in forests and grasslands and are mostly nocturnal. They feed on insects and small invertebrates.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Tiger+Salamander+on+leaf",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-49.mp3",
+        habitat: "Forests, grasslands",
+        diet: "Carnivore - insects, worms",
+        interestingFacts: [
+          "Tiger salamanders can regenerate lost limbs.",
+          "They spend much time underground.",
+          "They have a toxic skin secretion to deter predators.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Amphibians",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Tiger+Salamander+Thumbnail",
+      },
+      {
+        id: 50,
+        name: "Yellow Tang",
+        shortDescription: "Bright yellow tropical fish.",
+        longDescription:
+          "Yellow tangs are popular aquarium fish native to coral reefs in the Pacific Ocean. They feed on algae and help keep reefs clean.",
+        media360:
+          "https://placehold.co/800x450/png?text=360+Image+of+Yellow+Tang+fish+in+coral+reef",
+        media360Type: "image",
+        soundFile:
+          "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-50.mp3",
+        habitat: "Coral reefs",
+        diet: "Herbivore - algae",
+        interestingFacts: [
+          "Yellow tangs are territorial and use their sharp spines for defense.",
+          "They are popular in the aquarium trade.",
+          "They help control algae growth on reefs.",
+        ],
+        conservationStatus: "Least Concern",
+        category: "Fish",
+        thumbnail:
+          "https://placehold.co/400x300/png?text=Yellow+Tang+Thumbnail",
+      }
+    ];
+
+    // Elements
+    const animalCardsContainer = document.getElementById("animal-cards-container");
+    const animalModal = document.getElementById("animal-modal");
+    const modalCloseBtn = document.getElementById("modal-close-btn");
+    const modalAnimalName = document.getElementById("modal-animal-name");
+    const modalAnimalThumbnail = document.getElementById("modal-animal-thumbnail");
+    const modal360MediaContainer = document.getElementById("modal-360-media-container");
+    const modalAnimalSound = document.getElementById("modal-animal-sound");
+    const modalAnimalFacts = document.getElementById("modal-animal-facts");
+    const modalAnimalSummary = document.getElementById("modal-animal-summary");
+    const modalRelatedAnimals = document.getElementById("modal-related-animals");
+    const ratingStars = document.getElementById("rating-stars");
+    const ratingMessage = document.getElementById("rating-message");
+    const commentForm = document.getElementById("comment-form");
+    const commentInput = document.getElementById("comment-input");
+    const commentsList = document.getElementById("comments-list");
+    const quizContainer = document.getElementById("quiz-container");
+    const quizSubmitBtn = document.getElementById("quiz-submit-btn");
+    const quizResult = document.getElementById("quiz-result");
+    const searchBar = document.getElementById("search-bar");
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    // State
+    let currentAnimal = null;
+    let animalRatings = {}; // {animalId: [ratings]}
+    let animalComments = {}; // {animalId: [comments]}
+    let animalQuizAnswers = {}; // {animalId: {questionIndex: selectedOption}}
+
+    // Sample quiz questions for each animal (for demo, same questions for all)
+    const quizQuestions = [
+      {
+        question: "What is the primary diet of this animal?",
+        options: ["Herbivore", "Carnivore", "Omnivore", "Insectivore"],
+        answer: null // will be set per animal
+      },
+      {
+        question: "What is the conservation status of this animal?",
+        options: ["Least Concern", "Vulnerable", "Endangered", "Extinct"],
+        answer: null // will be set per animal
+      },
+      {
+        question: "Which habitat does this animal primarily live in?",
+        options: ["Forest", "Desert", "Ocean", "Grassland"],
+        answer: null // will be set per animal
+      }
+    ];
+
+    // Utility: Create animal card element
+    function createAnimalCard(animal) {
+      const card = document.createElement("article");
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-label", `View details for ${animal.name}`);
+      card.className =
+        "relative bg-white rounded-lg shadow-md overflow-hidden cursor-pointer group focus:outline-none focus:ring-2 focus:ring-green-500";
+
+      // Thumbnail image
+      const img = document.createElement("img");
+      img.src = animal.thumbnail;
+      img.alt = `Thumbnail image of ${animal.name}, ${animal.shortDescription}`;
+      img.className = "w-full h-48 object-cover";
+
+      // Content container
+      const content = document.createElement("div");
+      content.className = "p-4";
+
+      // Name
+      const name = document.createElement("h3");
+      name.className = "text-lg font-semibold text-green-700 truncate";
+      name.textContent = animal.name;
+
+      // Short description
+      const desc = document.createElement("p");
+      desc.className = "mt-1 text-gray-600 text-sm line-clamp-2";
+      desc.textContent = animal.shortDescription;
+
+      // Read More button (hidden by default, shown on hover/focus)
+      const readMoreBtn = document.createElement("button");
+      readMoreBtn.className =
+        "absolute inset-0 bg-green-700 bg-opacity-80 text-white font-semibold text-center text-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity flex items-center justify-center";
+      readMoreBtn.textContent = "Read More";
+      readMoreBtn.setAttribute("aria-hidden", "true");
+      readMoreBtn.tabIndex = -1;
+
+      card.appendChild(img);
+      content.appendChild(name);
+      content.appendChild(desc);
+      card.appendChild(content);
+      card.appendChild(readMoreBtn);
+
+      // Click and keyboard enter to open modal
+      card.addEventListener("click", () => openAnimalModal(animal.id));
+      card.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openAnimalModal(animal.id);
+        }
+      });
+
+      return card;
+    }
+
+    // Render all animal cards
+    function renderAnimalCards(filteredAnimals = null) {
+      animalCardsContainer.innerHTML = "";
+      const list = filteredAnimals || animals;
+      if (list.length === 0) {
+        const noResult = document.createElement("p");
+        noResult.className = "text-center text-gray-500 col-span-full";
+        noResult.textContent = "No animals found matching your search.";
+        animalCardsContainer.appendChild(noResult);
+        return;
+      }
+      list.forEach((animal) => {
+        const card = createAnimalCard(animal);
+        animalCardsContainer.appendChild(card);
+      });
+    }
+
+    // Open animal modal and populate data
+    function openAnimalModal(animalId) {
+      currentAnimal = animals.find((a) => a.id === animalId);
+      if (!currentAnimal) return;
+
+      modalAnimalName.textContent = currentAnimal.name;
+      modalAnimalThumbnail.src = currentAnimal.thumbnail;
+      modalAnimalThumbnail.alt = `Thumbnail image of ${currentAnimal.name}`;
+
+      // Clear 360 media container
+      modal360MediaContainer.innerHTML = "";
+      if (currentAnimal.media360Type === "image") {
+        const img360 = document.createElement("img");
+        img360.src = currentAnimal.media360;
+        img360.alt = `360 degree image of ${currentAnimal.name}`;
+        img360.className = "w-full h-full object-cover";
+        modal360MediaContainer.appendChild(img360);
+      } else if (currentAnimal.media360Type === "video") {
+        const iframe = document.createElement("iframe");
+        iframe.src = currentAnimal.media360;
+        iframe.title = `360 degree video of ${currentAnimal.name}`;
+        iframe.allow = "fullscreen; autoplay; accelerometer; gyroscope; picture-in-picture";
+        iframe.className = "w-full h-full";
+        iframe.frameBorder = "0";
+        modal360MediaContainer.appendChild(iframe);
+      }
+
+      // Audio
+      modalAnimalSound.src = currentAnimal.soundFile;
+      modalAnimalSound.setAttribute("aria-label", `Audio player for ${currentAnimal.name} sounds`);
+      modalAnimalSound.load();
+
+      // Facts
+      modalAnimalFacts.innerHTML = "";
+      const facts = [
+        `Habitat: ${currentAnimal.habitat}`,
+        `Diet: ${currentAnimal.diet}`,
+        `Conservation Status: ${currentAnimal.conservationStatus}`,
+        ...currentAnimal.interestingFacts,
+      ];
+      facts.forEach((fact) => {
+        const li = document.createElement("li");
+        li.textContent = fact;
+        modalAnimalFacts.appendChild(li);
+      });
+
+      // Summary
+      modalAnimalSummary.textContent = currentAnimal.longDescription;
+
+      // Related animals (same category, excluding current)
+      modalRelatedAnimals.innerHTML = "";
+      const related = animals.filter(
+        (a) => a.category === currentAnimal.category && a.id !== currentAnimal.id
+      ).slice(0, 4);
+      related.forEach((animal) => {
+        const relatedCard = document.createElement("article");
+        relatedCard.className =
+          "cursor-pointer rounded-lg overflow-hidden shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-500";
+        relatedCard.setAttribute("tabindex", "0");
+        relatedCard.setAttribute("role", "button");
+        relatedCard.setAttribute("aria-label", `View details for related animal ${animal.name}`);
+
+        const img = document.createElement("img");
+        img.src = animal.thumbnail;
+        img.alt = `Thumbnail image of related animal ${animal.name}`;
+        img.className = "w-full h-24 object-cover";
+
+        const name = document.createElement("h4");
+        name.className = "text-green-700 font-semibold text-center mt-1 truncate";
+        name.textContent = animal.name;
+
+        relatedCard.appendChild(img);
+        relatedCard.appendChild(name);
+
+        relatedCard.addEventListener("click", () => openAnimalModal(animal.id));
+        relatedCard.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openAnimalModal(animal.id);
+          }
+        });
+
+        modalRelatedAnimals.appendChild(relatedCard);
+      });
+
+      // Reset rating stars and message
+      updateRatingStars();
+
+      // Load comments
+      renderComments();
+
+      // Setup quiz questions and answers
+      setupQuiz();
+
+      // Show modal
+      animalModal.classList.remove("hidden");
+      animalModal.focus();
+      document.body.style.overflow = "hidden";
+    }
+
+    // Close modal
+    function closeAnimalModal() {
+      animalModal.classList.add("hidden");
+      currentAnimal = null;
+      modalAnimalSound.pause();
+      modalAnimalSound.currentTime = 0;
+      document.body.style.overflow = "";
+      quizResult.textContent = "";
+      quizContainer.innerHTML = "";
+      ratingMessage.textContent = "";
+      commentInput.value = "";
+    }
+
+    modalCloseBtn.addEventListener("click", closeAnimalModal);
+    animalModal.addEventListener("click", (e) => {
+      if (e.target === animalModal) closeAnimalModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !animalModal.classList.contains("hidden")) {
+        closeAnimalModal();
+      }
+    });
+
+    // Rating system
+    function updateRatingStars(selectedStar = 0) {
+      const ratings = animalRatings[currentAnimal?.id] || [];
+      const avgRating =
+        ratings.length > 0
+          ? ratings.reduce((a, b) => a + b, 0) / ratings.length
+          : 0;
+
+      Array.from(ratingStars.children).forEach((btn) => {
+        const starValue = parseInt(btn.dataset.star, 10);
+        if (selectedStar > 0) {
+          btn.classList.toggle("text-green-600", starValue <= selectedStar);
+          btn.classList.toggle("text-gray-400", starValue > selectedStar);
+        } else {
+          btn.classList.toggle("text-green-600", starValue <= Math.round(avgRating));
+          btn.classList.toggle("text-gray-400", starValue > Math.round(avgRating));
+        }
+      });
+
+      if (selectedStar === 0 && ratings.length > 0) {
+        ratingMessage.textContent = `Average rating: ${avgRating.toFixed(1)} / 5 (${ratings.length} rating${ratings.length > 1 ? "s" : ""})`;
+      } else if (selectedStar > 0) {
+        ratingMessage.textContent = `You rated this animal ${selectedStar} star${selectedStar > 1 ? "s" : ""}. Thank you!`;
+      } else {
+        ratingMessage.textContent = "No ratings yet. Be the first to rate!";
+      }
+    }
+
+    ratingStars.addEventListener("click", (e) => {
+      if (!currentAnimal) return;
+      const btn = e.target.closest("button.star-btn");
+      if (!btn) return;
+      const starValue = parseInt(btn.dataset.star, 10);
+      if (!animalRatings[currentAnimal.id]) animalRatings[currentAnimal.id] = [];
+      animalRatings[currentAnimal.id].push(starValue);
+      updateRatingStars(starValue);
+    });
+
+    // Comments
+    function renderComments() {
+      commentsList.innerHTML = "";
+      if (!currentAnimal) return;
+      const comments = animalComments[currentAnimal.id] || [];
+      if (comments.length === 0) {
+        const noComments = document.createElement("p");
+        noComments.className = "text-gray-500 italic";
+        noComments.textContent = "No comments yet. Be the first to comment!";
+        commentsList.appendChild(noComments);
+        return;
+      }
+      comments.forEach(({ text, date }) => {
+        const li = document.createElement("li");
+        li.className = "border border-gray-200 rounded-md p-3 bg-gray-50";
+        const dateObj = new Date(date);
+        li.innerHTML = `<p>${text}</p><time class="block text-xs text-gray-400 mt-1">${dateObj.toLocaleString()}</time>`;
+        commentsList.appendChild(li);
+      });
+    }
+
+    commentForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!currentAnimal) return;
+      const text = commentInput.value.trim();
+      if (text.length === 0) return;
+      if (!animalComments[currentAnimal.id]) animalComments[currentAnimal.id] = [];
+      animalComments[currentAnimal.id].push({ text, date: new Date().toISOString() });
+      commentInput.value = "";
+      renderComments();
+    });
+
+    // Quiz setup
+    function setupQuiz() {
+      quizContainer.innerHTML = "";
+      quizResult.textContent = "";
+      if (!currentAnimal) return;
+
+      // Set correct answers for demo based on animal data
+      quizQuestions[0].answer = getDietCategory(currentAnimal.diet);
+      quizQuestions[1].answer = currentAnimal.conservationStatus;
+      quizQuestions[2].answer = getHabitatCategory(currentAnimal.habitat);
+
+      animalQuizAnswers[currentAnimal.id] = {};
+
+      quizQuestions.forEach((q, i) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.className = "space-y-2";
+
+        const questionTitle = document.createElement("p");
+        questionTitle.className = "font-semibold";
+        questionTitle.textContent = `${i + 1}. ${q.question}`;
+        questionDiv.appendChild(questionTitle);
+
+        q.options.forEach((option, idx) => {
+          const optionId = `quiz-${currentAnimal.id}-${i}-${idx}`;
+          const label = document.createElement("label");
+          label.className = "inline-flex items-center space-x-2 cursor-pointer";
+
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = `quiz-question-${i}`;
+          input.id = optionId;
+          input.value = option;
+          input.required = true;
+          input.className = "form-radio text-green-600 focus:ring-green-500";
+
+          input.addEventListener("change", () => {
+            animalQuizAnswers[currentAnimal.id][i] = option;
+          });
+
+          const span = document.createElement("span");
+          span.textContent = option;
+
+          label.appendChild(input);
+          label.appendChild(span);
+          questionDiv.appendChild(label);
+        });
+
+        quizContainer.appendChild(questionDiv);
+      });
+    }
+
+    // Helpers to normalize diet and habitat for quiz answers
+    function getDietCategory(diet) {
+      diet = diet.toLowerCase();
+      if (diet.includes("herbivore")) return "Herbivore";
+      if (diet.includes("carnivore")) return "Carnivore";
+      if (diet.includes("omnivore")) return "Omnivore";
+      if (diet.includes("insectivore")) return "Insectivore";
+      return "Herbivore";
+    }
+
+    function getHabitatCategory(habitat) {
+      habitat = habitat.toLowerCase();
+      if (habitat.includes("forest")) return "Forest";
+      if (habitat.includes("desert")) return "Desert";
+      if (habitat.includes("ocean") || habitat.includes("sea") || habitat.includes("marine")) return "Ocean";
+      if (habitat.includes("grassland") || habitat.includes("savanna") || habitat.includes("plains")) return "Grassland";
+      return "Forest";
+    }
+
+    // Quiz submit
+    quizSubmitBtn.addEventListener("click", () => {
+      if (!currentAnimal) return;
+      const answers = animalQuizAnswers[currentAnimal.id];
+      if (!answers || Object.keys(answers).length < quizQuestions.length) {
+        quizResult.textContent = "Please answer all questions before submitting.";
+        quizResult.classList.remove("text-green-700");
+        quizResult.classList.add("text-red-600");
+        return;
+      }
+      let score = 0;
+      quizQuestions.forEach((q, i) => {
+        if (answers[i] === q.answer) score++;
+      });
+      quizResult.textContent = `You scored ${score} out of ${quizQuestions.length}.`;
+      quizResult.classList.remove("text-red-600");
+      quizResult.classList.add("text-green-700");
+    });
+
+    // Search filter
+    function filterAnimals() {
+      const query = searchBar.value.trim().toLowerCase();
+      if (query === "") {
+        renderAnimalCards();
+        return;
+      }
+      const filtered = animals.filter((animal) => {
+        return (
+          animal.name.toLowerCase().includes(query) ||
+          animal.category.toLowerCase().includes(query)
+        );
+      });
+      renderAnimalCards(filtered);
+    }
+
+    // Mobile menu toggle
+    mobileMenuButton.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+
+    // Initial render
+    renderAnimalCards();
+
+  </script>
+</body>
+</html>
