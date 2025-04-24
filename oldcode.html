@@ -1,0 +1,505 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Virtual Zoo
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Roboto', sans-serif;
+    }
+  </style>
+ </head>
+ <body class="bg-gray-100 min-h-screen flex flex-col">
+  <header class="bg-green-700 text-white shadow-md sticky top-0 z-50">
+   <div class="container mx-auto flex items-center justify-between p-4">
+    <div class="flex items-center space-x-3">
+     <img alt="Logo of Virtual Zoo with stylized animal paw print in green and white" class="w-12 h-12 rounded-full" height="48" src="https://storage.googleapis.com/a1aa/image/81f424b3-3624-476c-37b0-f556463f3891.jpg" width="48"/>
+     <h1 class="text-2xl font-bold tracking-wide">
+      Virtual Zoo
+     </h1>
+    </div>
+    <nav>
+     <ul class="flex space-x-6 text-lg font-semibold">
+      <li>
+       <a class="hover:text-yellow-400 transition" href="#home">
+        Home
+       </a>
+      </li>
+      <li>
+       <a class="hover:text-yellow-400 transition" href="#animals">
+        Animals
+       </a>
+      </li>
+      <li>
+       <a class="hover:text-yellow-400 transition" href="#habitats">
+        Habitats
+       </a>
+      </li>
+      <li>
+       <a class="hover:text-yellow-400 transition" href="#quiz">
+        Quiz
+       </a>
+      </li>
+      <li>
+       <a class="hover:text-yellow-400 transition" href="#about">
+        About
+       </a>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <main class="flex-grow container mx-auto p-4 space-y-16">
+   <!-- Home Section -->
+   <section class="text-center space-y-6" id="home">
+    <h2 class="text-4xl font-extrabold text-green-800">
+     Welcome to the Virtual Zoo
+    </h2>
+    <p class="max-w-3xl mx-auto text-lg text-gray-700">
+     Explore the wonders of wildlife from the comfort of your home. Discover fascinating animals, their habitats, and test your knowledge with our interactive quiz!
+    </p>
+    <center>
+    <iframe style="border-radius: 0%;" width="1500" height="500" frameborder="1" src="https://momento360.com/e/u/633f3ce03d884629afc6f26436fd1212?utm_campaign=embed&utm_source=other&heading=-164.44&pitch=25.25&field-of-view=75&size=medium&display-plan=true">
+   </iframe>
+   <style>
+    
+   </style>
+   </center>
+    </section>
+   <!-- Animals Section -->
+   <section class="space-y-8" id="animals">
+    <h2 class="text-3xl font-bold text-green-800 border-b-4 border-yellow-400 pb-2 max-w-max">
+     Animals
+    </h2>
+    <p class="text-gray-700 max-w-4xl">
+     Click on any animal to learn more about it, watch a video, hear its sound, and see interesting facts.
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="animal-cards">
+     <div aria-pressed="false" class="animal-card bg-white rounded-lg shadow-md cursor-pointer transform transition hover:scale-105 focus:scale-105 focus:outline-none" data-facts="The African elephant is the largest land animal on Earth, known for its large ears and tusks." data-video="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/elephants.webm" data-name="African Elephant" data-sound="https://actions.google.com/sounds/v1/animals/elephant_trumpeting.ogg" role="button" tabindex="0">
+      <img alt="African elephant standing in the savannah with large ears and tusks" class="rounded-t-lg w-full h-48 object-cover" height="300" src="https://storage.googleapis.com/a1aa/image/d7706786-205a-40d3-9fd1-83a9c0b80361.jpg" width="400"/>
+      <div class="p-4">
+       <h3 class="text-xl font-semibold text-green-900">
+        African Elephant
+       </h3>
+      </div>
+     </div>
+     <div aria-pressed="false" class="animal-card bg-white rounded-lg shadow-md cursor-pointer transform transition hover:scale-105 focus:scale-105 focus:outline-none" data-facts="The Bengal tiger is a powerful predator native to the Indian subcontinent, famous for its orange coat with black stripes." data-video="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/tiger.webm" data-name="Bengal Tiger" data-sound="https://actions.google.com/sounds/v1/animals/tiger_growl.ogg" role="button" tabindex="0">
+      <img alt="Bengal tiger prowling through dense jungle foliage with orange and black stripes" class="rounded-t-lg w-full h-48 object-cover" height="300" src="https://storage.googleapis.com/a1aa/image/b61f81f6-0fbc-4998-258d-b490b71c8234.jpg" width="400"/>
+      <div class="p-4">
+       <h3 class="text-xl font-semibold text-green-900">
+        Bengal Tiger
+       </h3>
+      </div>
+     </div>
+     <div aria-pressed="false" class="animal-card bg-white rounded-lg shadow-md cursor-pointer transform transition hover:scale-105 focus:scale-105 focus:outline-none" data-facts="Giant pandas are native to China and are known for their distinctive black and white fur and love of bamboo." data-video="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/panda.webm" data-name="Giant Panda" data-sound="https://actions.google.com/sounds/v1/animals/panda_breathing.ogg" role="button" tabindex="0">
+      <img alt="Giant panda sitting in a bamboo forest eating bamboo shoots" class="rounded-t-lg w-full h-48 object-cover" height="300" src="https://storage.googleapis.com/a1aa/image/38819eb0-6f8c-4310-a761-0a28b13b334b.jpg" width="400"/>
+      <div class="p-4">
+       <h3 class="text-xl font-semibold text-green-900">
+        Giant Panda
+       </h3>
+      </div>
+     </div>
+     <div aria-pressed="false" class="animal-card bg-white rounded-lg shadow-md cursor-pointer transform transition hover:scale-105 focus:scale-105 focus:outline-none" data-facts="Emperor penguins are the tallest and heaviest of all penguin species, living in Antarctica." data-video="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/penguin.webm" data-name="Emperor Penguin" data-sound="https://actions.google.com/sounds/v1/animals/penguin_calls.ogg" role="button" tabindex="0">
+      <img alt="Emperor penguin standing on ice with a snowy Antarctic background" class="rounded-t-lg w-full h-48 object-cover" height="300" src="https://storage.googleapis.com/a1aa/image/5046e583-997a-4fef-269d-37287a48d1e8.jpg" width="400"/>
+      <div class="p-4">
+       <h3 class="text-xl font-semibold text-green-900">
+        Emperor Penguin
+       </h3>
+      </div>
+     </div>
+     <div aria-pressed="false" class="animal-card bg-white rounded-lg shadow-md cursor-pointer transform transition hover:scale-105 focus:scale-105 focus:outline-none" data-facts="The red-eyed tree frog is known for its bright red eyes and vibrant green body, native to Central America." data-video="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/frog.webm" data-name="Red-eyed Tree Frog" data-sound="https://actions.google.com/sounds/v1/animals/frog_croaking.ogg" role="button" tabindex="0">
+      <img alt="Red-eyed tree frog perched on a green leaf with bright red eyes and blue and yellow legs" class="rounded-t-lg w-full h-48 object-cover" height="300" src="https://storage.googleapis.com/a1aa/image/a10ff66c-fbf8-4773-f07b-ac44be4d718f.jpg" width="400"/>
+      <div class="p-4">
+       <h3 class="text-xl font-semibold text-green-900">
+        Red-eyed Tree Frog
+       </h3>
+      </div>
+     </div>
+     <div aria-pressed="false" class="animal-card bg-white rounded-lg shadow-md cursor-pointer transform transition hover:scale-105 focus:scale-105 focus:outline-none" data-facts="Great horned owls are large birds of prey with distinctive ear tufts and a deep hooting call." data-video="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/owl.webm" data-name="Great Horned Owl" data-sound="https://actions.google.com/sounds/v1/animals/owl_hoot.ogg" role="button" tabindex="0">
+      <img alt="Great horned owl perched on a tree branch with piercing yellow eyes and feather tufts" class="rounded-t-lg w-full h-48 object-cover" height="300" src="https://storage.googleapis.com/a1aa/image/809ccafe-7e42-43a1-1efc-bd114c2388b5.jpg" width="400"/>
+      <div class="p-4">
+       <h3 class="text-xl font-semibold text-green-900">
+        Great Horned Owl
+       </h3>
+      </div>
+     </div>
+     <div aria-pressed="false" class="animal-card bg-white rounded-lg shadow-md cursor-pointer transform transition hover:scale-105 focus:scale-105 focus:outline-none" data-facts="The blue morpho butterfly is famous for its iridescent blue wings and is native to Central and South American rainforests." data-video="" data-name="Blue Morpho Butterfly" data-sound="" role="button" tabindex="0">
+      <img alt="Blue morpho butterfly resting on a colorful flower with bright iridescent blue wings" class="rounded-t-lg w-full h-48 object-cover" height="300" src="https://storage.googleapis.com/a1aa/image/0958c085-6724-4f0f-8fd6-1c6c5b030a67.jpg" width="400"/>
+      <div class="p-4">
+       <h3 class="text-xl font-semibold text-green-900">
+        Blue Morpho Butterfly
+       </h3>
+      </div>
+     </div>
+    </div>
+   </section>
+   <!-- Animal Modal -->
+   <div aria-hidden="true" aria-labelledby="animal-modal-title" aria-modal="true" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300" id="animal-modal" role="dialog">
+    <div class="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-xl relative">
+     <button aria-label="Close animal details" class="absolute top-3 right-3 text-gray-600 hover:text-red-600 text-2xl focus:outline-none" id="modal-close-btn">
+      <i class="fas fa-times">
+      </i>
+     </button>
+     <div class="w-full h-64 rounded-t-lg overflow-hidden bg-black flex items-center justify-center" id="media-container">
+      <video class="w-full h-full object-cover" controls id="modal-video" playsinline>
+       <source src="" type="video/webm"/>
+       Your browser does not support the video tag.
+      </video>
+      <img alt="" class="hidden w-full h-full object-cover" id="modal-image" loading="lazy"/>
+     </div>
+     <div class="p-6 space-y-4">
+      <h3 class="text-3xl font-bold text-green-900" id="animal-modal-title">
+      </h3>
+      <p class="text-gray-700 text-lg" id="animal-facts">
+      </p>
+      <button class="mt-4 inline-flex items-center space-x-2 bg-green-700 hover:bg-green-800 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-500" id="play-sound-btn">
+       <i class="fas fa-volume-up">
+       </i>
+       <span>
+        Play Sound
+       </span>
+      </button>
+      <audio id="animal-sound" preload="auto" src="">
+      </audio>
+     </div>
+    </div>
+   </div>
+   <!-- Habitats Section -->
+   <section class="space-y-8" id="habitats">
+    <h2 class="text-3xl font-bold text-green-800 border-b-4 border-yellow-400 pb-2 max-w-max">
+     Habitats
+    </h2>
+    <p class="text-gray-700 max-w-4xl">
+     Learn about different animal habitats and the animals that live there.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+     <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <img alt="Savannah habitat with golden grasslands, acacia trees, and elephants roaming" class="w-full h-48 object-cover" height="400" src="https://storage.googleapis.com/a1aa/image/ed676e1d-40c6-4d6d-d401-a92278f7d201.jpg" width="600"/>
+      <div class="p-4">
+       <h3 class="text-2xl font-semibold text-green-900 mb-2">
+        Savannah
+       </h3>
+       <p class="text-gray-700">
+        The savannah is a grassy plain with scattered trees, home to elephants, lions, giraffes, and zebras.
+       </p>
+       <ul class="mt-3 list-disc list-inside text-green-800 font-semibold">
+        <li>
+         African Elephant
+        </li>
+        <li>
+         Bengal Tiger (rarely)
+        </li>
+        <li>
+         Great Horned Owl (migratory)
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <img alt="Rainforest habitat with dense green trees, colorful birds, and tropical plants" class="w-full h-48 object-cover" height="400" src="https://storage.googleapis.com/a1aa/image/2410b788-ac38-41e5-ee1a-2f17aac148c0.jpg" width="600"/>
+      <div class="p-4">
+       <h3 class="text-2xl font-semibold text-green-900 mb-2">
+        Rainforest
+       </h3>
+       <p class="text-gray-700">
+        Rainforests are dense, warm, and wet forests that are home to diverse species like the red-eyed tree frog and blue morpho butterfly.
+       </p>
+       <ul class="mt-3 list-disc list-inside text-green-800 font-semibold">
+        <li>
+         Red-eyed Tree Frog
+        </li>
+        <li>
+         Blue Morpho Butterfly
+        </li>
+        <li>
+         Giant Panda (temperate rainforest)
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <img alt="Polar habitat with icebergs, snow, and emperor penguins standing on ice" class="w-full h-48 object-cover" height="400" src="https://storage.googleapis.com/a1aa/image/107f6916-3ac0-4dad-3d92-e2a911069c93.jpg" width="600"/>
+      <div class="p-4">
+       <h3 class="text-2xl font-semibold text-green-900 mb-2">
+        Polar
+       </h3>
+       <p class="text-gray-700">
+        Polar regions are cold and icy, inhabited by animals like the emperor penguin adapted to extreme cold.
+       </p>
+       <ul class="mt-3 list-disc list-inside text-green-800 font-semibold">
+        <li>
+         Emperor Penguin
+        </li>
+        <li>
+         Great Horned Owl (migratory)
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </section>
+   <!-- Quiz Section -->
+   <section class="space-y-8" id="quiz">
+    <h2 class="text-3xl font-bold text-green-800 border-b-4 border-yellow-400 pb-2 max-w-max">
+     Animal Quiz
+    </h2>
+    <p class="text-gray-700 max-w-4xl">
+     Test your knowledge about the animals in our virtual zoo!
+    </p>
+    <form class="bg-white p-6 rounded-lg shadow-md max-w-3xl mx-auto space-y-6" id="quiz-form">
+     <div>
+      <label class="block text-lg font-semibold text-green-900 mb-2" for="q1">
+       1. Which animal is known for its distinctive black and white fur and love of bamboo?
+      </label>
+      <select class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500" id="q1" name="q1" required="">
+       <option disabled="" selected="" value="">
+        Select an answer
+       </option>
+       <option value="Giant Panda">
+        Giant Panda
+       </option>
+       <option value="Bengal Tiger">
+        Bengal Tiger
+       </option>
+       <option value="African Elephant">
+        African Elephant
+       </option>
+       <option value="Emperor Penguin">
+        Emperor Penguin
+       </option>
+      </select>
+     </div>
+     <div>
+      <label class="block text-lg font-semibold text-green-900 mb-2" for="q2">
+       2. Which animal is the tallest and heaviest of all penguin species?
+      </label>
+      <select class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500" id="q2" name="q2" required="">
+       <option disabled="" selected="" value="">
+        Select an answer
+       </option>
+       <option value="Emperor Penguin">
+        Emperor Penguin
+       </option>
+       <option value="Great Horned Owl">
+        Great Horned Owl
+       </option>
+       <option value="Red-eyed Tree Frog">
+        Red-eyed Tree Frog
+       </option>
+       <option value="Blue Morpho Butterfly">
+        Blue Morpho Butterfly
+       </option>
+      </select>
+     </div>
+     <div>
+      <label class="block text-lg font-semibold text-green-900 mb-2" for="q3">
+       3. Which animal is famous for its iridescent blue wings?
+      </label>
+      <select class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500" id="q3" name="q3" required="">
+       <option disabled="" selected="" value="">
+        Select an answer
+       </option>
+       <option value="Blue Morpho Butterfly">
+        Blue Morpho Butterfly
+       </option>
+       <option value="Bengal Tiger">
+        Bengal Tiger
+       </option>
+       <option value="African Elephant">
+        African Elephant
+       </option>
+       <option value="Giant Panda">
+        Giant Panda
+       </option>
+      </select>
+     </div>
+     <button class="bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-6 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-500" type="submit">
+      Submit Answers
+     </button>
+    </form>
+    <div aria-live="polite" class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md text-center text-xl font-semibold text-green-900 hidden" id="quiz-result" role="alert">
+    </div>
+   </section>
+   <!-- About Section -->
+   <section class="space-y-6 max-w-4xl mx-auto text-center" id="about">
+    <h2 class="text-3xl font-bold text-green-800 border-b-4 border-yellow-400 pb-2 max-w-max mx-auto">
+     About Virtual Zoo
+    </h2>
+    <p class="text-gray-700 text-lg">
+     The Virtual Zoo is an interactive web experience designed to educate and entertain users about the amazing animals and habitats found around the world. Our goal is to bring wildlife closer to you through engaging content, sounds, and quizzes.
+    </p>
+    <p class="text-gray-700 text-lg">
+     Created by wildlife enthusiasts and web developers, this platform is perfect for learners of all ages who want to explore nature safely and conveniently.
+    </p>
+    <img alt="Collage image showing various animals like elephants, tigers, pandas, penguins, and their natural habitats in a colorful artistic style" class="mx-auto rounded-lg shadow-lg" height="400" src="https://storage.googleapis.com/a1aa/image/b33cd310-9e7b-41e8-91b6-d0d96aacefab.jpg" width="800"/>
+   </section>
+  </main>
+  <footer class="bg-green-700 text-white p-6 text-center">
+   <p class="text-sm">
+    © 2024 Virtual Zoo. All rights reserved.
+   </p>
+   <p class="mt-2">
+    Follow us on
+    <a class="hover:text-yellow-400" href="https://twitter.com" rel="noopener" target="_blank">
+     <i class="fab fa-twitter">
+     </i>
+     Twitter
+    </a>
+    ,
+    <a class="hover:text-yellow-400" href="https://facebook.com" rel="noopener" target="_blank">
+     <i class="fab fa-facebook">
+     </i>
+     Facebook
+    </a>
+    ,
+    <a class="hover:text-yellow-400" href="https://instagram.com" rel="noopener" target="_blank">
+     <i class="fab fa-instagram">
+     </i>
+     Instagram
+    </a>
+   </p>
+  </footer>
+  <script>
+   // Animal modal functionality with video
+    const animalCards = document.querySelectorAll('.animal-card');
+    const modal = document.getElementById('animal-modal');
+    const modalVideo = document.getElementById('modal-video');
+    const modalImage = document.getElementById('modal-image');
+    const mediaContainer = document.getElementById('media-container');
+    const modalTitle = document.getElementById('animal-modal-title');
+    const modalFacts = document.getElementById('animal-facts');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const playSoundBtn = document.getElementById('play-sound-btn');
+    const animalSound = document.getElementById('animal-sound');
+
+    function openModal(card) {
+      const name = card.getAttribute('data-name');
+      const video = card.getAttribute('data-video');
+      const sound = card.getAttribute('data-sound');
+      const facts = card.getAttribute('data-facts');
+
+      modalTitle.textContent = name;
+      modalFacts.textContent = facts;
+
+      if (video) {
+        modalVideo.src = video;
+        modalVideo.classList.remove('hidden');
+        modalVideo.load();
+        modalVideo.play().catch(() => {});
+        modalImage.classList.add('hidden');
+      } else {
+        modalVideo.pause();
+        modalVideo.src = '';
+        modalVideo.classList.add('hidden');
+        modalImage.src = card.querySelector('img').src;
+        modalImage.alt = Image of ${name};
+        modalImage.classList.remove('hidden');
+      }
+
+      if (sound) {
+        animalSound.src = sound;
+        playSoundBtn.disabled = false;
+        playSoundBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        playSoundBtn.innerHTML = '<i class="fas fa-volume-up"></i><span> Play Sound</span>';
+      } else {
+        animalSound.src = '';
+        playSoundBtn.disabled = true;
+        playSoundBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        playSoundBtn.innerHTML = '<i class="fas fa-volume-up"></i><span> Play Sound</span>';
+      }
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.setAttribute('aria-hidden', 'false');
+      modalCloseBtn.focus();
+    }
+
+    function closeModal() {
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.setAttribute('aria-hidden', 'true');
+      animalSound.pause();
+      animalSound.currentTime = 0;
+      modalVideo.pause();
+      modalVideo.currentTime = 0;
+    }
+
+    animalCards.forEach((card) => {
+      card.addEventListener('click', () => openModal(card));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModal(card);
+        }
+      });
+    });
+
+    modalCloseBtn.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') {
+        closeModal();
+      }
+    });
+
+    playSoundBtn.addEventListener('click', () => {
+      if (!playSoundBtn.disabled) {
+        if (animalSound.paused) {
+          animalSound.play();
+          playSoundBtn.innerHTML = '<i class="fas fa-pause"></i><span> Pause Sound</span>';
+        } else {
+          animalSound.pause();
+          playSoundBtn.innerHTML = '<i class="fas fa-volume-up"></i><span> Play Sound</span>';
+        }
+      }
+    });
+
+    animalSound.addEventListener('ended', () => {
+      playSoundBtn.innerHTML = '<i class="fas fa-volume-up"></i><span> Play Sound</span>';
+    });
+
+    // Quiz functionality
+    const quizForm = document.getElementById('quiz-form');
+    const quizResult = document.getElementById('quiz-result');
+
+    const correctAnswers = {
+      q1: 'Giant Panda',
+      q2: 'Emperor Penguin',
+      q3: 'Blue Morpho Butterfly',
+    };
+
+    quizForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let score = 0;
+      const formData = new FormData(quizForm);
+
+      for (const [key, value] of formData.entries()) {
+        if (correctAnswers[key] === value) {
+          score++;
+        }
+      }
+
+      quizResult.classList.remove('hidden');
+      quizResult.textContent = `You scored ${score} out of 3! ${
+        score === 3
+          ? 'Excellent! You know your animals well!'
+          : score >= 1
+          ? 'Good job! Keep learning about animals.'
+          : 'Try again to improve your knowledge!'
+      }`;
+
+      quizForm.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+ </body>
+</html>
